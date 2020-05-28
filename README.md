@@ -1,4 +1,23 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+/**
+ * 登陆的路由组件
+ */
+import React, { Component } from 'react'
+
+export default class Login extends Component{
+    render() {
+        return (
+            <div>login</div>
+        )
+    }
+}
+<!-- 
+creat-react-app 脚手架创建项目
+引入ant
+按需加载
+自定义主题有问题
+创建login和admin文件
+
+ -->
 
 ## Available Scripts
 
