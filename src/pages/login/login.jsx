@@ -7,7 +7,7 @@ import {Redirect} from 'react-router-dom'
 
 // 引入自定义
 import "./login.less";
-import logo from "./images/logo.png";
+import logo from "../../asstes/images/logo.png";
 import { reqLogin } from '../../api'
 import memoryUtils from '../../utils/memoryUtils.js'
 import storageUtils from '../../utils/storageUtils.js'
