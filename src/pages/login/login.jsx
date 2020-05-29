@@ -2,21 +2,41 @@
  * 登陆的路由组件
  */
 import React, { Component } from "react";
-import { Form, Icon, Input, Button } from "antd";
+import { Form, Icon, Input, Button, message } from "antd";
+import {Redirect} from 'react-router-dom'
 
 // 引入自定义
 import "./login.less";
 import logo from "./images/logo.png";
-
+import { reqLogin } from '../../api'
+import memoryUtils from '../../utils/memoryUtils.js'
+import storageUtils from '../../utils/storageUtils.js'
 class Login extends Component {
   handleSubmit = (event) => {
     //1.阻止默认提交行为
     event.preventDefault();
     // 校验
-      this.props.form.validateFields((err, values) => {
+      this.props.form.validateFields(async(err, values) => {
         // 成功了
         if (!err) {
-          console.log('发送Ajax请求', values);
+          const {username, password} = values //获取参数
+          
+          const result = await reqLogin(username, password)
+          console.log(result);
+          if (result.status === 0) { //请求成功
+            message.success('请求成功')
+            // 跳转之前先获取user，保存到内存
+            const user = result.data
+            console.log('user',user);
+            memoryUtils.user = user // 保存到内存
+            storageUtils.saveUser(user) // 保存到local storage
+
+            // 跳转
+            this.props.history.replace('/')
+          } else { //请求失败
+            message.error(result.msg)
+          }
+            // console.log('成功了',response.data);
         } else {
             console.log('校验失败');
             
@@ -56,6 +76,11 @@ class Login extends Component {
     }
   render() {
     const { getFieldDecorator } = this.props.form;
+    const user = memoryUtils.user
+    // 判断是否登陆过，如果登陆过去对应的页面
+    if (user && user._id) { //有值说明登陆过
+      return <Redirect to='/'></Redirect>
+    }
     return (
       <div className="login">
         <header className="login-header">

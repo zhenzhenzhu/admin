@@ -23,15 +23,16 @@ creat-react-app 脚手架创建项目
 
 In the project directory, you can run:
 
-### `yarn start`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `yarn test`
+### `跨域问题`
+  开发过程中，使用代理解决Ajax请求跨域的问题
+  更改配置文件需要重启
+### `关于登陆`
+    1.使用form表单 包装from表单，生成一个新的form表单
+    2.给登陆注册点击事件 - 进行前台表单验证- 收集表单，输入数据
+    3.使用高阶函数和高阶组件进行校验-1声明式校验，直接使用别人定义好的规则进行校验2-自定义校验
+    4.校验成功发送请求 - 写登陆的请求接口
+    5.成功进行跳转，失败提示信息
+    
 
 Launches the test runner in the interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
