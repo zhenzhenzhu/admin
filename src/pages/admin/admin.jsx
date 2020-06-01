@@ -40,7 +40,7 @@ export default class Admin extends Component {
           {/* 头部 */}
           <Header></Header>
           {/* 中间 */}
-          <Content style={{ backgroundColor: "#fff" }}>
+          <Content style={{ margin:20 , backgroundColor: "#fff" }}>
             <Switch>   
               <Route path="/home" component={Home} />
               <Route path="/category" component={Category} />
