@@ -31,7 +31,7 @@ export default class Admin extends Component {
     }
     return (
       // 整体
-      <Layout style={{ height: "100%" }}>
+      <Layout style={{ minHeight: "100%" }}>
         <Sider>
           {/* 左侧边栏 */}
           <LeftNav></LeftNav>

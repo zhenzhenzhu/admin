@@ -76,7 +76,7 @@ class LeftNav extends Component {
         ))
       } else {
           // 查找一个与当前请求路径匹配的item
-      const cItem = item.children.find(cItem => cItem.key === path)
+      const cItem = item.children.find(cItem =>  path.indexOf(cItem.key)===0 )
         // 如果存在，说明当前的item需要展开
         if (cItem) {
           this.openKey = item.key
@@ -108,8 +108,13 @@ class LeftNav extends Component {
   render() {
     // debugger;
     // 获取当前请求的路由路径
-    const path = this.props.location.pathname
+    let path = this.props.location.pathname
     console.log('render()', path);
+
+    // 问题？ 请求商品对应的子路由页面时，左侧对应的商品管理菜单栏不显示
+    if (path.indexOf('/product') === 0) { // 当前请求的是商品或者子路由
+      path = '/product'
+    }
     // 得到需要打开菜单项的key
     const openKey = this.openKey
     console.log('openKey',openKey);

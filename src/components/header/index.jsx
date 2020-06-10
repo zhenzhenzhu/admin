@@ -31,7 +31,7 @@ import './index.less'
                 title = item.title
             }else if (item.children) { //说明请求的是item的子item
                 // 在所有的子item中找
-               const cItem = item.children.find(cItem => cItem.key === path)
+               const cItem = item.children.find(cItem => path.indexOf(cItem.key) === 0)
                 if (cItem) { // 有值 说明是匹配的
                     title = cItem.title
                 }
