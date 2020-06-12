@@ -4,20 +4,15 @@
 import React, { Component } from "react";
 import { Link,withRouter } from "react-router-dom";
 import { Menu, Icon } from "antd";
-import { connect } from 'react-redux'
-// import PropTypes from 'prop-types'
 
 // 引入自定义
 import "./index.less";
 import logo from "../../asstes/images/logo.png";
 import menuList from "../../config/menuConfig";
-import {setHeadTitle} from '../../redux/action'
 
 const { SubMenu } = Menu;
 
 class LeftNav extends Component {
-
-
   /**
    * 第一种 使用map() + 递归调用
    */
@@ -71,15 +66,9 @@ class LeftNav extends Component {
     return menuList.reduce((pre, item) => {
       // 向pre中 添加 <Menu.Item />
       if (!item.children) {//没有值
-        // 判断iteme是否是当前对应的item
-        if (item.key === path || path.indexOf(item.key) === 0) {
-          // 更新redux 里面的 HeadTitle 状态
-          this.props.setHeadTitle(item.title)
-        }
-
         pre.push((
           <Menu.Item key={item.key}>
-           <Link to={item.key} onClick={()=>this.props.setHeadTitle(item.title)}>
+           <Link to={item.key}>
             <Icon type={item.icon} />
             <span>{item.title}</span>
           </Link>
@@ -150,7 +139,4 @@ class LeftNav extends Component {
  * 包装非路由组件，得到一个新的路由组件
  * 新的路由组件会向非路由组件传递3个属性hhistroy/location/match
  */
-export default connect(
-  state => ({ headTitle: state.headTitle }),
-  {setHeadTitle}
-)(withRouter(LeftNav))
+export default withRouter(LeftNav)

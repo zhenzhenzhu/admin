@@ -3,16 +3,15 @@
  */
 import React, { Component } from "react";
 import { Card, Button, Table, Modal, message } from "antd";
-import {connect} from 'react-redux'
 
 import { PAGE_SIZE } from "../../utils/constans";
 import { reqRoles,reqAddRole,reqUpdateRole } from "../../api";
 import AddForm from "./add-form";
 import AuthForm from './auth-form'
-// import memoryUtils from '../../utils/memoryUtils'
+import memoryUtils from '../../utils/memoryUtils'
 import {formateDate} from '../../utils/dateUtils'
 
-class Role extends Component {
+export default class Role extends Component {
   state = {
     roles: [], // 所有角色的列表
     role: {}, // 选中的role
@@ -131,7 +130,7 @@ class Role extends Component {
         const menus = this.auth.current.getMenus()
         role.menus = menus
         role.auth_time = Date.now()
-        role.auth_name = this.props.user.username  // 授权人
+        role.auth_name = memoryUtils.user.username  // 授权人
 
         // 3.发送请求
         const result = await reqUpdateRole(role)
@@ -224,6 +223,3 @@ class Role extends Component {
     );
   }
 }
-export default connect(
-  state =>({user:state.user})
-)(Role)

@@ -4,10 +4,9 @@
 import React, { Component } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { Layout } from "antd";
-import {connect} from 'react-redux'
 
 // 引入自定义组件
-// import memoryUtils from "../../utils/memoryUtils.js";
+import memoryUtils from "../../utils/memoryUtils.js";
 import LeftNav from "../../components/left-nav/index";
 import Header from "../../components/header/index";
 import Home from "../home/home";
@@ -21,9 +20,9 @@ import Pie from "../charts/pie";
 
 const { Footer, Sider, Content } = Layout;
 
-class Admin extends Component {
+export default class Admin extends Component {
   render() {
-    const user = this.props.user;
+    const user = memoryUtils.user;
     // 判断
     if (!user || !user._id) {
       //没有值==没有登陆，去登陆
@@ -63,6 +62,3 @@ class Admin extends Component {
     );
   }
 }
-export default connect(
-  state => ({ user: state.user})
-)(Admin)

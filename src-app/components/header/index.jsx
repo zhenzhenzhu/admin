@@ -4,19 +4,15 @@
 import React, { Component } from 'react'
 import {withRouter} from 'react-router-dom'
 import { Modal } from 'antd';
-import { connect } from 'react-redux'
 //引入自定义
-import {logout} from '../../redux/action'
 import LinkButton from '../link-button/index'
 import {reqWeather} from '../../api/index'
-// import memoryUtils from '../../utils/memoryUtils'
-// import storageUtils from '../../utils/storageUtils.js'
+import memoryUtils from '../../utils/memoryUtils'
+import storageUtils from '../../utils/storageUtils.js'
 import { formateDate } from '../../utils/dateUtils'
 import menuList from '../../config/menuConfig.js'
 import './index.less'
-class Header extends Component{
-   
-
+ class Header extends Component{
     // 初始值
     state = {
         currentTime: formateDate(Date.now()), // 当前时间字符串
@@ -70,16 +66,14 @@ class Header extends Component{
         Modal.confirm({
             content: '确定退出吗',
             onOk :() => { //确认退出
-            // //   console.log('OK');
-            //     // 1.清除内存及本地local中的user
-            //         // 清除本地
-            //         storageUtils.removeUser()
-            //         // 清除内存
-            //         memoryUtils.user = {}
-            //     // 2.跳转到登陆页面 this问题 使用箭头函数 
-            //     this.props.history.replace('/login')
-                // 调用redux中的同步action进行退出
-                this.props.logout()
+            //   console.log('OK');
+                // 1.清除内存及本地local中的user
+                    // 清除本地
+                    storageUtils.removeUser()
+                    // 清除内存
+                    memoryUtils.user = {}
+                // 2.跳转到登陆页面 this问题 使用箭头函数 
+                this.props.history.replace('/login')
             },
             onCancel() {
               console.log('Cancel');
@@ -105,10 +99,9 @@ class Header extends Component{
         // 获取值
         const { currentTime, dayPictureUrl, weather } = this.state
         // 从内存中获取user
-        const username = this.props.user.username
+        const username = memoryUtils.user.username
         // 得到当前需要展示的title
-        // const title = this.getTitle()
-        const title = this.props.headTitle
+        const title = this.getTitle()
         return (
             <div className='header'>
                 <div className='header-top'>
@@ -129,7 +122,4 @@ class Header extends Component{
         )
     }
 }
-export default connect(
-    state => ({ headTitle: state.headTitle,user:state.user }),
-    {logout}
-)(withRouter(Header)) 
+export default withRouter(Header)
