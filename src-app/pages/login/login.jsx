@@ -3,16 +3,14 @@
  */
 import React, { Component } from "react";
 import { Form, Icon, Input, Button, message } from "antd";
-import { Redirect } from 'react-router-dom'
-import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
 
 // 引入自定义
 import "./login.less";
 import logo from "../../asstes/images/logo.png";
-// import { reqLogin } from '../../api'
-// import memoryUtils from '../../utils/memoryUtils.js'
-// import storageUtils from '../../utils/storageUtils.js'
-import {login} from '../../redux/action'
+import { reqLogin } from '../../api'
+import memoryUtils from '../../utils/memoryUtils.js'
+import storageUtils from '../../utils/storageUtils.js'
 class Login extends Component {
   handleSubmit = (event) => {
     //1.阻止默认提交行为
@@ -23,24 +21,22 @@ class Login extends Component {
         if (!err) {
           const {username, password} = values //获取参数
           
-          // const result = await reqLogin(username, password)
-          // console.log(result);
-          // if (result.status === 0) { //请求成功
-          //   message.success('请求成功')
-          //   // 跳转之前先获取user，保存到内存
-          //   const user = result.data
-          //   console.log('user',user);
-          //   memoryUtils.user = user // 保存到内存
-          //   storageUtils.saveUser(user) // 保存到local storage
+          const result = await reqLogin(username, password)
+          console.log(result);
+          if (result.status === 0) { //请求成功
+            message.success('请求成功')
+            // 跳转之前先获取user，保存到内存
+            const user = result.data
+            console.log('user',user);
+            memoryUtils.user = user // 保存到内存
+            storageUtils.saveUser(user) // 保存到local storage
 
-          //   // 跳转
-          //   this.props.history.replace('/home')
-          // } else { //请求失败
-          //   message.error(result.msg)
-          // }
-          //   // console.log('成功了',response.data);
-          // 调用异步action函数 =》发送ajax亲求，进行更新
-          this.props.login(username, password)
+            // 跳转
+            this.props.history.replace('/')
+          } else { //请求失败
+            message.error(result.msg)
+          }
+            // console.log('成功了',response.data);
         } else {
             console.log('校验失败');
             
@@ -80,13 +76,11 @@ class Login extends Component {
     }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const user = this.props.user
+    const user = memoryUtils.user
     // 判断是否登陆过，如果登陆过去对应的页面
     if (user && user._id) { //有值说明登陆过
-      return <Redirect to='/home'></Redirect>
+      return <Redirect to='/'></Redirect>
     }
-    // 如果失败
-    const errorMsg = this.props.user.errorMsg
     return (
       <div className="login">
         <header className="login-header">
@@ -94,7 +88,6 @@ class Login extends Component {
           <h1>React项目:后台管理系统</h1>
         </header>
         <section className="login-content">
-        <div className={errorMsg ? 'error-msg show' : 'error-msg'}>{errorMsg}</div>
           <h1>用户登陆</h1>
           <Form onSubmit={this.handleSubmit} className="login-form">
                     <Form.Item>
@@ -188,7 +181,4 @@ class Login extends Component {
  * 2.收集表单输入数据
  */
 const WarpLogin = Form.create()(Login);
-export default connect(
-  state => ({ user: state.user }),
-  {login}
-)(WarpLogin) ;
+export default WarpLogin;
